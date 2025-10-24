@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Beneficiario;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beneficiarios', function (Blueprint $table) {
+        Schema::create('beneficiario_documento_relationship', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('telefone');
-            $table->date('dataNascimento');
+            $table->foreignId('beneficiario_id')->constrained('beneficiarios')->cascadeOnDelete();
+            $table->foreignId('documento_id')->constrained('documentos')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beneficiarios');
+        Schema::dropIfExists('beneficiario_documento_relationship');
     }
 };

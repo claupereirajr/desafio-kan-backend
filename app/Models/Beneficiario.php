@@ -12,4 +12,8 @@ class Beneficiario extends Model
         'telefone',
         'dataNascimento',
     ];
+    public function documentos()
+    {
+        return $this->hasMany(Documento::class, 'beneficiario_id');
+    }
 }

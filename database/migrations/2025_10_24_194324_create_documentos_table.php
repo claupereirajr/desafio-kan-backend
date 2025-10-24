@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
+            $table->enum('tipoDocumento', ['RG', 'CPF', 'CNH', 'Passaporte', 'Outros']);
+            $table->string('descricao', 100);
             $table->timestamps();
         });
     }

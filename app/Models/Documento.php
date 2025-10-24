@@ -12,4 +12,9 @@ class Documento extends Model
         'tipoDocumento',
         'descricao',
     ];
+
+    public function beneficiarios()
+    {
+        return $this->belongsTo(Beneficiario::class, 'documento_id');
+    }
 }
