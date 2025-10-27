@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Beneficiario;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Beneficiario::class, 'beneficiario_id');
             $table->enum('tipoDocumento', ['RG', 'CPF', 'CNH', 'Passaporte', 'Outros']);
             $table->string('descricao', 100);
             $table->timestamps();

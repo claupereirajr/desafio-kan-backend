@@ -16,43 +16,35 @@ class StoreBeneficiarioRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * [
-     *  "beneficiario" = [
-     *   "nome" => "required|string|max:255",
-     *   "telefone" => "required|string|max:20",
-     *   "dataNascimento" => "required|date",
-     *  ],
-     *  "documentos" = [
-     *   [
-     *    "tipoDocumento",=> in_list['RG', 'CPF', 'CNH', 'Passaporte', 'Outros'],
-     *    "descricao"=> "required|max:100"
-     *   ],
-     *   [
-     *    "tipoDocumento",=> in_list['RG', 'CPF', 'CNH', 'Passaporte', 'Outros'],
-     *    "descricao"=> "required|max:100"
-     *   ],
-     *   ...
+     * Request:
+     * {
+     *  "beneficiario": {
+     *      "nome": "batata",
+     *      "telefone": "1234567",
+     *      "dataNascimento": "12-12-2020"
+     *  },
+     *  "documentos": [
+     *      {
+     *          "tipoDocumento": "CNH",
+     *          "descricao": "1234567890"
+     *      },
+     *      {
+     *          "tipoDocumento": "RG",
+     *          "descricao": "1234567890"
+     *      }
      *  ]
-     * ]
-     *
+     *  }
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'beneficiario' => [
-                'nome' => 'required|string|max:255',
-                'telefone' => 'required|string|max:20',
-                'dataNascimento' => 'required|date|before:tomorrow',
-            ],
-            'documentos' => [
-                'required',
-                'array',
-                'min:1',
-                'max:3',
-            ],
-            'documentos.*.tipoDocumento' => 'required|in_list:RG,CPF,CNH,Passaporte,Outros',
-            'documentos.*.descricao' => 'required|max:100',
+            'beneficiario.nome' => 'required|string|max:128|unique:beneficiarios,nome',
+            'beneficiario.telefone' => 'required|string|max:20',
+            'beneficiario.dataNascimento' => 'required|date', // ou date_format:d-m-Y se quiser forçar formato
+            'documentos' => 'required|array|min:1|max:3',
+            'documentos.*.tipoDocumento' => 'required|in:RG,CPF,CNH,Passaporte,Outros',
+            'documentos.*.descricao' => 'required|string|max:255|unique:documentos,descricao',
         ];
     }
 }

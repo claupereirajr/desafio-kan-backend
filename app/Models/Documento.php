@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
+use App\Enums\EnumTipoDocumentos;
 use Illuminate\Database\Eloquent\Model;
 
 class Documento extends Model
 {
     protected $table = 'documentos';
     protected $fillable = [
-        'id',
+        'beneficiario_id',
         'tipoDocumento',
         'descricao',
     ];
-
-    public function beneficiarios()
+    protected function cast(): array
     {
-        return $this->belongsTo(Beneficiario::class, 'documento_id');
+        return [
+            'tipoDocumento' => EnumTipoDocumentos::getKeys()
+        ];
     }
 }
